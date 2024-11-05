@@ -1,8 +1,33 @@
-import React from "react";
+import React, { useState /*useRef, useEffect*/ } from "react";
 import { useNavigate } from "react-router-dom";
+// import axios from "axios";
+// import { area } from "./Area";
 
 function SignIn() {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [selectedArea, setSelectedArea] = useState("");
+  const [selectedSubArea, setSelectedSubArea] = useState("");
+  // const [isAreaOpen, setIsAreaOpen] = useState(false);
+  // const [isSubAreaOpen, setIsSubAreaOpen] = useState(false);
+  // const dropdownRef = useRef(null);
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    console.log(
+      "email: ",
+      email,
+      "password: ",
+      password,
+      "selectedArea: ",
+      selectedArea,
+      "selectedSubArea: ",
+      selectedSubArea
+    );
+  };
+
+  console.log("selectedArea ", selectedArea);
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
@@ -18,19 +43,21 @@ function SignIn() {
             </button>
           </div>
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <form className="space-y-4 md:space-y-6" action="#">
+            <form onSubmit={handleSignUp} className="space-y-4 md:space-y-6">
               <div>
                 <label
-                  htmlFor="id"
+                  htmlFor="email"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  ID
+                  아이디
                 </label>
                 <input
                   type="email"
                   name="email"
                   id="email"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-8"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 mb-8"
                   placeholder="name@sesac.kr"
                   required
                 />
@@ -40,17 +67,133 @@ function SignIn() {
                   htmlFor="password"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Password
+                  비밀번호
                 </label>
                 <input
                   type="password"
                   name="password"
                   id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-5"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 mb-5"
                   required
                 />
               </div>
+
+              {/* <div
+                className="relative inline-block text-left"
+                ref={dropdownRef}
+              >
+                <label
+                  htmlFor="area"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  거주 지역
+                </label>
+                <button
+                  id="areaDropdownButton"
+                  onClick={() => setIsAreaOpen(!isAreaOpen)}
+                  className="text-gray-900 bg-gray-50 border border-gray-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 mb-5 w-44" // 고정 너비
+                  type="button"
+                >
+                  {selectedArea || "지역"}
+                  <svg
+                    className="w-2.5 h-2.5 ms-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 10 6"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 4 4 4-4"
+                    />
+                  </svg>
+                </button>
+
+                {isAreaOpen && (
+                  <div className="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute mt-2">
+                    {" "}
+                    <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
+                      {area.map((item) => (
+                        <li key={item.name}>
+                          <button
+                            onClick={() => {
+                              setSelectedArea(item.name);
+                              setIsAreaOpen(false);
+                              setSelectedSubArea("");
+                              setIsSubAreaOpen(false);
+                            }}
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            {item.name}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+
+              <div
+                className="relative inline-block text-left ml-8"
+                ref={dropdownRef}
+              >
+                <label
+                  htmlFor="subArea"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                ></label>
+                <button
+                  id="subAreaDropdownButton"
+                  onClick={() => setIsSubAreaOpen(!isSubAreaOpen)}
+                  className="text-gray-900 bg-gray-50 border border-gray-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 mb-5 w-44" // 고정 너비
+                  type="button"
+                >
+                  {selectedSubArea || "시 / 군 / 구"}
+                  <svg
+                    className="w-2.5 h-2.5 ms-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 10 6"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 4 4 4-4"
+                    />
+                  </svg>
+                </button>
+
+                {isSubAreaOpen && selectedArea && (
+                  <div className="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute mt-2">
+                    {" "}
+                    <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
+                      {area
+                        .find((item) => item.name === selectedArea)
+                        .subArea.map((subArea) => (
+                          <li key={subArea}>
+                            <button
+                              onClick={() => {
+                                setSelectedSubArea(subArea);
+                                setIsSubAreaOpen(false);
+                              }}
+                              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                            >
+                              {subArea}
+                            </button>
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                )}
+              </div> */}
 
               <button
                 type="submit"

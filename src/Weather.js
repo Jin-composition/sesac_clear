@@ -30,7 +30,7 @@ function Weather() {
           <div className="grid grid-cols-1 gap-4">
             <div className="flex justify-between w-96 h-80">
               <div className="ml-8 bg-white flex items-center justify-center">
-                <img className="rounded-t-lg" src={clear} alt="weather image" />
+                <img className="rounded-t-lg" src={clear} alt="weather" />
               </div>
 
               <div className="w-64 h-12 bg-white dark:bg-gray-800 dark:border-gray-700 ml-4 flex items-center h-full">
@@ -49,7 +49,7 @@ function Weather() {
                 <img
                   className="w-12 h-14 rounded-l-lg"
                   src={water}
-                  alt="weather image"
+                  alt="weather"
                 />
                 <h5 className="text-lg font-semibold tracking-tight text-gray-900 dark:text-white ml-2">
                   70%
@@ -60,7 +60,7 @@ function Weather() {
                 <img
                   className="w-12 h-14 rounded-l-lg"
                   src={wind}
-                  alt="weather image"
+                  alt="weather"
                 />
                 <h5 className="text-lg font-semibold tracking-tight text-gray-900 dark:text-white ml-2">
                   북동 7.5m/s
