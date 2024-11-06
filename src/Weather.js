@@ -1,15 +1,53 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+
 import clear from "../src/clear.png";
 import water from "../src/water.png";
 import wind from "../src/wind.png";
 
 function Weather() {
   const navigate = useNavigate();
+  const [weatherData, setWeatherData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  let city = "seoul";
 
   const handleLogout = () => {
-    navigate("/signin");
+    axios
+      .post(
+        `http://sesac231-alb-1341608115.ap-southeast-1.elb.amazonaws.com/logout`
+      )
+      .then((response) => {
+        console.log(response.data.message);
+        navigate("/signin");
+      })
+      .catch((error) => {
+        console.error("Logout error:", error);
+      });
   };
+
+  useEffect(() => {
+    // 로드 밸런서 엔드포인트로 GET 요청 보내기
+    axios
+      .get(
+        `http://sesac231-alb-1341608115.ap-southeast-1.elb.amazonaws.com/get_weather`,
+        {
+          params: { city: city },
+        }
+      )
+      .then((response) => {
+        setWeatherData(response.data); // API 응답 데이터 저장
+        setLoading(false); // 로딩 상태 업데이트
+      })
+      .catch((error) => {
+        console.error("Error fetching weather data:", error);
+        setLoading(false);
+      });
+  }, [city]);
+
+  // if (loading) return <p>Loading...</p>;
+  // if (!weatherData) return <p>No weather data available.</p>;
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
